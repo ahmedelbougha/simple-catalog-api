@@ -1,7 +1,7 @@
 using System;
 using GraphQL.Types;
 
-namespace aspnetcoregraphql.Models
+namespace aspnetcoregraphql.Models.Schemas
 {
     public class EasyStoreSchema : Schema
     {

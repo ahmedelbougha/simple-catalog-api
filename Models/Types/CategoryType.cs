@@ -1,8 +1,9 @@
 using System.Linq;
 using aspnetcoregraphql.Data;
+using aspnetcoregraphql.Models.Entities;
 using GraphQL.Types;
 
-namespace aspnetcoregraphql.Models
+namespace aspnetcoregraphql.Models.Types
 {
     public class CategoryType : ObjectGraphType<Category>
     {

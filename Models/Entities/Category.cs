@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace aspnetcoregraphql.Models
+namespace aspnetcoregraphql.Models.Entities
 {
     public class Category
     {

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using aspnetcoregraphql.Data;
+using aspnetcoregraphql.Models.Entities;
+using aspnetcoregraphql.Models.Types;
 using GraphQL.Types;
 
 namespace aspnetcoregraphql.Models
@@ -9,7 +11,8 @@ namespace aspnetcoregraphql.Models
         public EasyStoreQuery(ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             Field<CategoryType>(
-                "category",
+                name: "category",
+                description: "specific category data",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> {Name = "id", Description = "Category id"}
                 ),
@@ -17,12 +20,14 @@ namespace aspnetcoregraphql.Models
             );
 
             Field<ListGraphType<CategoryType>>(
-                "categories",
+                name: "categories",
+                description: "list all categories",
                 resolve: context => categoryRepository.CategoriesAsync().Result
             );
 
             Field<ProductType>(
-                "product",
+                name: "product",
+                description: "specific product data",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IntGraphType>> {Name = "id", Description = "Product id"}
                 ),
@@ -30,7 +35,8 @@ namespace aspnetcoregraphql.Models
             );
 
             Field<ListGraphType<ProductType>>(
-                "products",
+                name: "products",
+                description: "list all products",
                 resolve: context => productRepository.GetProductsAsync().Result
             );            
         }

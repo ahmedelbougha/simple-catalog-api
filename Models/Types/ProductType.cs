@@ -1,7 +1,9 @@
 using aspnetcoregraphql.Data;
+using aspnetcoregraphql.Models.Entities;
 using GraphQL.Types;
 
-namespace aspnetcoregraphql.Models
+
+namespace aspnetcoregraphql.Models.Types
 {
     public class ProductType : ObjectGraphType<Product>
     {

@@ -1,4 +1,4 @@
-namespace aspnetcoregraphql.Models
+namespace aspnetcoregraphql.Models.Entities
 {
     public class Product
     {

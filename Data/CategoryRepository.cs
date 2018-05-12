@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using aspnetcoregraphql.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using aspnetcoregraphql.Models.Entities;
 
 namespace aspnetcoregraphql.Data
 {
