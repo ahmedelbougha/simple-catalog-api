@@ -4,6 +4,7 @@ using aspnetcoregraphql.Data;
 using aspnetcoregraphql.Models.Operations;
 using GraphQL;
 using GraphQL.Types;
+using GraphQL.Validation.Complexity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aspnetcoregraphql.Controllers
@@ -25,11 +26,16 @@ namespace aspnetcoregraphql.Controllers
         {
             if (query == null) { throw new ArgumentNullException(nameof(query)); }
             
-            
+            var complexityConfiguration = new ComplexityConfiguration {
+                // MaxDepth = 1,
+                MaxComplexity = 85,
+                FieldImpact = 5.0             
+            };
             var executionOptions = new ExecutionOptions { 
                 Schema = _schema, 
                 Query = query.Query,
-                Inputs = query.Variables.ToInputs()
+                Inputs = query.Variables.ToInputs(),
+                ComplexityConfiguration = complexityConfiguration
             };
 
             try
