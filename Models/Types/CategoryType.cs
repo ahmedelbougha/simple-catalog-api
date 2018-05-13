@@ -1,5 +1,5 @@
 using System.Linq;
-using aspnetcoregraphql.Data;
+using aspnetcoregraphql.Data.Repositories;
 using aspnetcoregraphql.Models.Entities;
 using GraphQL.Types;
 

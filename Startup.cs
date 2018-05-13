@@ -8,8 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using aspnetcoregraphql.Data;
-using aspnetcoregraphql.Models;
+using aspnetcoregraphql.Data.Repositories;
+using aspnetcoregraphql.Models.Operations;
+using aspnetcoregraphql.Models.Types;
+using aspnetcoregraphql.Models.Schemas;
 using GraphQL;
 using GraphQL.Types;
 
@@ -30,15 +32,33 @@ namespace aspnetcoregraphql
             services.AddMvc();
 
 
-            services.AddScoped<EasyStoreQuery>();   
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();   
-            services.AddScoped<IDocumentExecuter, DocumentExecuter>();
-            services.AddTransient<CategoryType>();
-            services.AddTransient<ProductType>();
+            services.AddSingleton<EasyStoreQuery>();   
+            services.AddSingleton<EasyStoreMutation>();   
+
+            // This should be AddScoped/AddTransient, but for matter of testing
+            // I used AddSingleton to keep Repositories with their last statuses
+            // which is important for mutations (to act like in memory db)
+            // - //////////////////////////////////////////////////////////
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>(); 
+            services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddSingleton<IOrderRepository, OrderRepository>();    
+
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<CategoryType>();
+            services.AddSingleton<ProductType>();
+            services.AddSingleton<CustomerType>();
+            services.AddSingleton<OrderType>();            
+            services.AddSingleton<OrderStatusesEnum>();          
+            services.AddSingleton<OrderCreateInputType>();
+            // - //////////////////////////////////////////////////////////
+
+
             var sp = services.BuildServiceProvider();
-            services.AddScoped<ISchema>(_ => new EasyStoreSchema(type => (GraphType) sp.GetService(type)) {Query = sp.GetService<EasyStoreQuery>()});
-            // services.AddScoped<ISchema>(_ => new EasyStoreSchema(new FuncDependencyResolver(type => (GraphType) sp.GetService(type))) {Query = sp.GetService<EasyStoreQuery>()});            
+            // services.AddScoped<ISchema>(_ => new EasyStoreSchema(type => (GraphType) sp.GetService(type)) {Query = sp.GetService<EasyStoreQuery>()});
+            // services.AddScoped<ISchema>(_ => new EasyStoreSchema(new FuncDependencyResolver(type => (GraphType) sp.GetService(type))) {Query = sp.GetService<EasyStoreQuery>()});
+            services.AddSingleton<ISchema>(new EasyStoreSchema(new FuncDependencyResolver(type => sp.GetService(type))));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +70,8 @@ namespace aspnetcoregraphql
             }
 
             app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using aspnetcoregraphql.Models.Entities;
 
-namespace aspnetcoregraphql.Data
+namespace aspnetcoregraphql.Data.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

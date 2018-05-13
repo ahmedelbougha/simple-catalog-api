@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using aspnetcoregraphql.Models;
 using aspnetcoregraphql.Models.Entities;
 
-namespace aspnetcoregraphql.Data
+namespace aspnetcoregraphql.Data.Repositories
 {
     public interface ICategoryRepository
     {

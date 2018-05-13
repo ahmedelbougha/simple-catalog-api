@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using aspnetcoregraphql.Data;
-using aspnetcoregraphql.Models;
+using aspnetcoregraphql.Models.Operations;
 using GraphQL;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +21,16 @@ namespace aspnetcoregraphql.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]GraphQLQuery query)
+        public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {
             if (query == null) { throw new ArgumentNullException(nameof(query)); }
-
-            var executionOptions = new ExecutionOptions { Schema = _schema, Query = query.Query };
+            
+            
+            var executionOptions = new ExecutionOptions { 
+                Schema = _schema, 
+                Query = query.Query,
+                Inputs = query.Variables.ToInputs()
+            };
 
             try
             {
